@@ -1,0 +1,19 @@
+---
+title: "EDLD Final Project v2"
+author: "Frances Pinkham, Eunji Kong, Elyse Calhoun, Yitong Jiang"
+format: html
+editor: visual
+embed-resources: true
+---
+
+```{r}
+#| eval: true
+#| echo: false
+library(tidyverse)
+library(here)
+library(rio)
+```
+
+```{r}
+Schooling <- import(here("data","Schooling.csv"))
+```
