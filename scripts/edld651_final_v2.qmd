@@ -17,3 +17,19 @@ library(rio)
 ```{r}
 Schooling <- import(here("data","Schooling.csv"))
 ```
+
+```{r}
+
+Schooling %>%
+  mutate(mean_par_ed = mean(momed+daded))
+
+Schoolingsub <- Schooling %>%
+  select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4, nearc4a, nearc4b)
+
+Schoolingsub %>%
+  pivot_longer(
+    cols = 8:11,
+    names_to = "nearc",
+    values_to = "Y/N",
+    values_transform = list(result = as.character))
+```
