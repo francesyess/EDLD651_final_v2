@@ -32,7 +32,6 @@ schoolingsub1 <- schoolingsub |>
                                       ifelse(nearc2 == "no" & nearc4 =="yes","near_4yr", "not_near_college")))) 
 ```
 
-
 ```{r}
 schoolingsub1 <- schoolingsub1 %>%
   pivot_longer(
@@ -41,9 +40,8 @@ schoolingsub1 <- schoolingsub1 %>%
     values_to = "education")
 ```
 
-
-
 Demographics
+
 ```{r}
 datasummary_skim(schoolingsub1 |> 
                    pivot_wider (names_from = parent,
@@ -52,9 +50,8 @@ datasummary_skim(schoolingsub1 |>
                  histogram = FALSE)
 ```
 
+Research question 1: What is the relationship between parent education and participant's education?
 
-Research question 1: 
-What is the relationship between parent education and participant's education? 
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(education, ed76, color = parent)) +
@@ -62,16 +59,16 @@ schoolingsub1 |>
 
 ```
 
-Research question 2: 
-What is the relationship between parent education and participant's wage? 
+Research question 2: What is the relationship between parent education and participant's wage?
+
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(education, wage76, color = parent)) +
   geom_smooth(method = lm, se = FALSE) + theme_minimal()
 ```
 
-Research question 3: 
-Is there a difference in wage depending on whether you lived near a collge?
+Research question 3: Is there a difference in wage depending on whether you lived near a collge?
+
 ```{r}
 schoolingsub1 %>%   
   group_by(near_college) |> 
