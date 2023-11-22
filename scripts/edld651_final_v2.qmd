@@ -7,8 +7,7 @@ embed-resources: true
 ---
 
 ```{r}
-#| eval: true
-#| echo: false
+#| include: false
 library(tidyverse)
 library(here)
 library(rio)
@@ -37,7 +36,11 @@ schoolingsub1 <- schoolingsub1 %>%
   pivot_longer(
     cols = c(daded,momed),
     names_to = "parent",
-    values_to = "education")
+    values_to = "par_education")
+
+schoolingsub1$parent <- gsub("daded", "dad", schoolingsub1$parent)
+
+schoolingsub1$parent <- gsub("momed", "mom", schoolingsub1$parent)
 ```
 
 Demographics
@@ -55,7 +58,13 @@ Research question 1: What is the relationship between parent education and parti
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(education, ed76, color = parent)) +
-  geom_smooth(method = lm, se = FALSE) + theme_minimal()
+  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+  labs(title = "Relationship between Parent and Participant Education",
+       subtitle = "From 1976 Survey",
+       x = "Parental Education (yrs)",
+       y = "Participant Education (yrs)",
+       color = "Parent"
+       )
 
 ```
 
@@ -64,14 +73,29 @@ Research question 2: What is the relationship between parent education and parti
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(education, wage76, color = parent)) +
-  geom_smooth(method = lm, se = FALSE) + theme_minimal()
+  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+   labs(title = "Relationship between Parent Education and Participant Wages",
+       subtitle = "From 1976 Survey",
+       x = "Parental Education (yrs)",
+       y = "Participant Wages (cents/hr)",
+       color = "Parent"
+       )
 ```
 
 Research question 3: Is there a difference in wage depending on whether you lived near a collge?
 
 ```{r}
+schoolingsub1$near_college <- gsub("near_4yr", "Near 4-year College", schoolingsub1$near_college)
+
+schoolingsub1$near_college <- gsub("near_cc", "Near Community College", schoolingsub1$near_college)
+
+schoolingsub1$near_college <- gsub("near_colleges", "Near 4-year  and Community College", schoolingsub1$near_college)
+
+schoolingsub1$near_college <- gsub("not_near_college", "Not Near College", schoolingsub1$near_college)
+
 schoolingsub1 %>%   
   group_by(near_college) |> 
-  summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |> 
+  summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
+  rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>%
 DT::datatable()
 ```
