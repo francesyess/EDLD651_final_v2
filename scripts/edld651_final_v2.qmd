@@ -4,6 +4,7 @@ author: "Frances Pinkham, Eunji Kong, Elyse Calhoun, Yitong Jiang"
 format: html
 editor: visual
 embed-resources: true
+code-fold: true
 ---
 
 ```{r}
@@ -48,7 +49,7 @@ Demographics
 ```{r}
 datasummary_skim(schoolingsub1 |> 
                    pivot_wider (names_from = parent,
-                                values_from = education) |> 
+                                values_from = par_education) |> 
                    select(-rownames),
                  histogram = FALSE)
 ```
@@ -57,7 +58,7 @@ Research question 1: What is the relationship between parent education and parti
 
 ```{r}
 schoolingsub1 |> 
-  ggplot(aes(education, ed76, color = parent)) +
+  ggplot(aes(par_education, ed76, color = parent)) +
   geom_smooth(method = lm, se = FALSE) + theme_minimal() +
   labs(title = "Relationship between Parent and Participant Education",
        subtitle = "From 1976 Survey",
@@ -72,7 +73,7 @@ Research question 2: What is the relationship between parent education and parti
 
 ```{r}
 schoolingsub1 |> 
-  ggplot(aes(education, wage76, color = parent)) +
+  ggplot(aes(par_education, wage76, color = parent)) +
   geom_smooth(method = lm, se = FALSE) + theme_minimal() +
    labs(title = "Relationship between Parent Education and Participant Wages",
        subtitle = "From 1976 Survey",
