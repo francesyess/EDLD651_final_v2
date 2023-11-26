@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "EDLD 651 Final Presentation",
+    "section": "",
+    "text": "Elyse Calhoun, Frances Jess, Yitong Jiang, Eunji Kong"
+  },
+  {
+    "objectID": "scripts/edld651_final_v2.html",
+    "href": "scripts/edld651_final_v2.html",
+    "title": "EDLD Final Project v2",
+    "section": "",
+    "text": "Code\nschooling &lt;- import(here(\"data\",\"Schooling.csv\"))\n\n\n\n\nCode\nschoolingsub &lt;- schooling %&gt;%\n  select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4)\n\n\n\n\nCode\nschoolingsub1 &lt;- schoolingsub |&gt; \n  mutate(near_college = ifelse(nearc2 == \"yes\" & nearc4 ==\"yes\", \"near_colleges\", \n                               ifelse(nearc2 == \"yes\" & nearc4 ==\"no\",\"near_cc\", \n                                      ifelse(nearc2 == \"no\" & nearc4 ==\"yes\",\"near_4yr\", \"not_near_college\")))) \n\n\n\n\nCode\nschoolingsub1 &lt;- schoolingsub1 %&gt;%\n  pivot_longer(\n    cols = c(daded,momed),\n    names_to = \"parent\",\n    values_to = \"par_education\")\n\nschoolingsub1$parent &lt;- gsub(\"daded\", \"dad\", schoolingsub1$parent)\n\nschoolingsub1$parent &lt;- gsub(\"momed\", \"mom\", schoolingsub1$parent)\n\n\nDemographics\n\n\nCode\ndatasummary_skim(schoolingsub1 |&gt; \n                   pivot_wider (names_from = parent,\n                                values_from = par_education) |&gt; \n                   select(-rownames),\n                 histogram = FALSE)\n\n\n\n\n\n\nUnique (#)\nMissing (%)\nMean\nSD\nMin\nMedian\nMax\n\n\n\n\ned76\n18\n0\n13.3\n2.7\n1.0\n13.0\n18.0\n\n\nwage76\n755\n0\n577.3\n263.0\n100.0\n537.5\n2404.0\n\n\niqscore\n93\n32\n102.4\n15.4\n50.0\n103.0\n149.0\n\n\nage76\n11\n0\n28.1\n3.1\n24.0\n28.0\n34.0\n\n\ndad\n20\n0\n10.0\n3.3\n0.0\n9.9\n18.0\n\n\nmom\n20\n0\n10.3\n3.0\n0.0\n11.0\n18.0\n\n\n\n\n\n\n\nResearch question 1: What is the relationship between parent education and participant’s education?\n\n\nCode\nschoolingsub1 |&gt; \n  ggplot(aes(par_education, ed76, color = parent)) +\n  geom_smooth(method = lm, se = FALSE) + theme_minimal() +\n  labs(title = \"Relationship between Parent and Participant Education\",\n       subtitle = \"From 1976 Survey\",\n       x = \"Parental Education (yrs)\",\n       y = \"Participant Education (yrs)\",\n       color = \"Parent\"\n       )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\nResearch question 2: What is the relationship between parent education and participant’s wage?\n\n\nCode\nschoolingsub1 |&gt; \n  ggplot(aes(par_education, wage76, color = parent)) +\n  geom_smooth(method = lm, se = FALSE) + theme_minimal() +\n   labs(title = \"Relationship between Parent Education and Participant Wages\",\n       subtitle = \"From 1976 Survey\",\n       x = \"Parental Education (yrs)\",\n       y = \"Participant Wages (cents/hr)\",\n       color = \"Parent\"\n       )\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\nResearch question 3: Is there a difference in wage depending on whether you lived near a collge?\n\n\nCode\nschoolingsub1$near_college &lt;- gsub(\"near_4yr\", \"Near 4-year College\", schoolingsub1$near_college)\n\nschoolingsub1$near_college &lt;- gsub(\"near_cc\", \"Near Community College\", schoolingsub1$near_college)\n\nschoolingsub1$near_college &lt;- gsub(\"near_colleges\", \"Near 4-year  and Community College\", schoolingsub1$near_college)\n\nschoolingsub1$near_college &lt;- gsub(\"not_near_college\", \"Not Near College\", schoolingsub1$near_college)\n\nschoolingsub1 %&gt;%   \n  group_by(near_college) |&gt; \n  summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |&gt;\n  rename(\"Proximity to College\" = near_college, \"Participant Average Wage per Hour\" = avg_wage) %&gt;%\nDT::datatable()"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "reflection.html",
+    "href": "reflection.html",
+    "title": "Reflection",
+    "section": "",
+    "text": "Frances JessElyse CalhounYitong JiangEunji Kong\n\n\n\nChallenges faced\n\nblah\n\nVictories\n\nblah\n\nCurrent Challenges\n\nblah\n\n\n\n\n\nChallenges faced\n\nblah\n\nVictories\n\nblah\n\nCurrent Challenges\n\nblah\n\n\n\n\n\nChallenges faced\n\nblah\n\nVictories\n\nblah\n\nCurrent Challenges\n\nblah\n\n\n\n\n\nChallenges Faced\n\nWorking collaboratively on GitHub\n\nVictories\n\nMaking my own website\n\nCurrent Challenges\n\nDesigning the website"
+  },
+  {
+    "objectID": "reflection.html#frances-jess",
+    "href": "reflection.html#frances-jess",
+    "title": "Reflection",
+    "section": "Frances Jess",
+    "text": "Frances Jess\n\nChallenges faced\nVictories\nCurrent Challenges"
+  },
+  {
+    "objectID": "reflection.html#elyse-calhoun",
+    "href": "reflection.html#elyse-calhoun",
+    "title": "Reflection",
+    "section": "Elyse Calhoun",
+    "text": "Elyse Calhoun\n\nChallenges faced\nVictories\nCurrent Challenges"
+  },
+  {
+    "objectID": "reflection.html#yitong-jiang",
+    "href": "reflection.html#yitong-jiang",
+    "title": "Reflection",
+    "section": "Yitong Jiang",
+    "text": "Yitong Jiang\n\nChallenges faced\nVictories\nCurrent Challenges"
+  },
+  {
+    "objectID": "reflection.html#eunji-kong",
+    "href": "reflection.html#eunji-kong",
+    "title": "Reflection",
+    "section": "Eunji Kong",
+    "text": "Eunji Kong\n\nChallenges faced\nVictories\nCurrent Challenges"
+  }
+]

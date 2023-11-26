@@ -1,0 +1,62 @@
+---
+title: "Reflection"
+---
+
+::: panel-tabset
+## Frances Jess
+
+1.  Challenges faced
+
+    -   blah
+
+2.  Victories
+
+    -   blah
+
+3.  Current Challenges
+
+    -   blah
+
+## Elyse Calhoun
+
+1.  Challenges faced
+
+    -   blah
+
+2.  Victories
+
+    -   blah
+
+3.  Current Challenges
+
+    -   blah
+
+## Yitong Jiang
+
+1.  Challenges faced
+
+    -   blah
+
+2.  Victories
+
+    -   blah
+
+3.  Current Challenges
+
+    -   blah
+
+## Eunji Kong
+
+1.  Challenges Faced
+
+    -   Working collaboratively on GitHub
+
+2.  Victories
+
+    -   Making my own website
+
+3.  Current Challenges
+
+    -   Designing the website
+
+:::
