@@ -1,8 +1,21 @@
 ---
 title: "EDLD Final Project v2"
-author: "Frances Pinkham, Eunji Kong, Elyse Calhoun, Yitong Jiang"
+author: 
+  - Frances Pinkham 
+  - Eunji Kong 
+  - Elyse Calhoun 
+  - Yitong Jiang
+# Above I edited how you listed authors. With this edit, quarto now recognizes that there are multiple authors. Previously, as written, quarto recognized one author whose name was everything inside the quotes.
+abstract: "This is where abstract is pasted" 
+# In quarto, you paste the abstract in the yaml. 
 format: html
 editor: visual
+# Would you consider a specific theme? When I rendered the file, its theme was a bit off, not sure if it is by design. 
+execute: 
+  eval: true # change to false before final submission so code is not evaluated; leave as true for now 
+  echo: true
+  message: false # will not render messages
+  warning: false # will not render warnings 
 embed-resources: true
 code-fold: true
 ---
@@ -13,10 +26,16 @@ library(tidyverse)
 library(here)
 library(rio)
 library(modelsummary)
+library(janitor)
 ```
 
 ```{r}
-schooling <- import(here("data","Schooling.csv"))
+#| label: loading data 
+schooling <- import(here("data","Schooling.csv")) %>% 
+  as_tibble() %>% 
+  clean_names()
+
+# I imported the data as a tibble and used the janitor package to run clean names. Upon closer examination, these two functions did not change much from your dataset. 
 ```
 
 ```{r}
@@ -30,6 +49,8 @@ schoolingsub1 <- schoolingsub |>
   mutate(near_college = ifelse(nearc2 == "yes" & nearc4 =="yes", "near_colleges", 
                                ifelse(nearc2 == "yes" & nearc4 =="no","near_cc", 
                                       ifelse(nearc2 == "no" & nearc4 =="yes","near_4yr", "not_near_college")))) 
+
+# In the above code, case when is also an option 
 ```
 
 ```{r}
@@ -61,13 +82,14 @@ Research question 1: What is the relationship between parent education and parti
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(par_education, ed76, color = parent)) +
-  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+  geom_smooth(method = lm, se = FALSE) +
   labs(title = "Relationship between Parent and Participant Education",
        subtitle = "From 1976 Survey",
        x = "Parental Education (yrs)",
        y = "Participant Education (yrs)",
        color = "Parent"
-       )
+       ) + 
+  theme_minimal() 
 
 ```
 
@@ -77,13 +99,16 @@ Research question 2: What is the relationship between parent education and parti
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(par_education, wage76, color = parent)) +
-  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+  geom_smooth(method = lm, se = FALSE) +
    labs(title = "Relationship between Parent Education and Participant Wages",
        subtitle = "From 1976 Survey",
        x = "Parental Education (yrs)",
        y = "Participant Wages (cents/hr)",
        color = "Parent"
-       )
+       )  + 
+  theme_minimal() 
+
+# Just a thought, would you consider re-coding education as a categorical variable, i.e., less than high school, high school diploma, some college, bachelor's degree or some other variation. While looking at the data, I had a thought that a histogram might better display your data.  
 ```
 
 Research question 3: Is there a difference in wage depending on whether you lived near a college?
