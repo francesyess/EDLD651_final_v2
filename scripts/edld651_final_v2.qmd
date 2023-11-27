@@ -26,6 +26,9 @@ schoolingsub <- schooling %>%
 ```
 
 ```{r}
+#creating near college variable and dummy coding
+#TZ just added the comment above to annotate what the code is doing.
+
 schoolingsub1 <- schoolingsub |> 
   mutate(near_college = ifelse(nearc2 == "yes" & nearc4 =="yes", "near_colleges", 
                                ifelse(nearc2 == "yes" & nearc4 =="no","near_cc", 
@@ -47,18 +50,40 @@ schoolingsub1$parent <- gsub("momed", "mom", schoolingsub1$parent)
 Demographics
 
 ```{r}
+
+
 datasummary_skim(schoolingsub1 |> 
                    pivot_wider (names_from = parent,
                                 values_from = par_education) |> 
+                   select(-rownames),
+                 histogram = FALSE)
+
+
+# TZ: pretty table! maybe rename the variables to easy-to-read names; not sure if wage is weekly or montly... See revised code below:
+schoolingsub2 <- schoolingsub1 %>%
+  pivot_wider (names_from = parent,
+               values_from = par_education) %>%
+  rename("Participant Ed Level"= ed76, "Participant Weekly Wage" = wage76, "Participant IQ" = iqscore, "Participant Age" = age76, "Dad Ed Level" = dad, "Mom Ed Level" = mom)
+
+datasummary_skim(schoolingsub2 |> 
                    select(-rownames),
                  histogram = FALSE)
 ```
 
 Research question 1: What is the relationship between parent education and participant's education?
 
+TZ: Kinda silly, but my advisor drilled into me that "people have 'relationships', data has 'relations.'" But I think that is personal preference. I would probably also put in the word "level" when talking about education because this could also mean type of education (private, public, homeschool).
+
 ```{r}
-schoolingsub1 |> 
-  ggplot(aes(par_education, ed76, color = parent)) +
+#TZ: Revised to put par_education back in and revert name of participant education to not have any spaces in variable name
+  schoolingsub3 <- schoolingsub2 %>%
+      rename("ed76"= "Participant Ed Level") %>%
+  pivot_longer(
+    cols = c("Dad Ed Level", "Mom Ed Level"),
+    names_to = "parent",
+    values_to = "par_education")
+
+  ggplot(schoolingsub3, aes(par_education, ed76, color = parent)) +
   geom_smooth(method = lm, se = FALSE) + theme_minimal() +
   labs(title = "Relationship between Parent and Participant Education",
        subtitle = "From 1976 Survey",
@@ -71,9 +96,15 @@ schoolingsub1 |>
 
 Research question 2: What is the relationship between parent education and participant's wage?
 
+TZ: same comments as RQ 1
+
 ```{r}
-schoolingsub1 |> 
-  ggplot(aes(par_education, wage76, color = parent)) +
+#TZ:  reverted wage back to original name to get rid of spaces in variable name
+  schoolingsub3 <- schoolingsub3 %>%
+      rename("wage76"= "Participant Weekly Wage")
+  
+
+  ggplot(schoolingsub3, aes(par_education, wage76, color = parent)) +
   geom_smooth(method = lm, se = FALSE) + theme_minimal() +
    labs(title = "Relationship between Parent Education and Participant Wages",
        subtitle = "From 1976 Survey",
@@ -83,7 +114,9 @@ schoolingsub1 |>
        )
 ```
 
-Research question 3: Is there a difference in wage depending on whether you lived near a collge?
+Research question 3: Is there a difference in wage depending on whether you lived near a college?
+
+TZ: Typo on "college." This could maybe be rephrased as "Is there a difference in wages between those that lived near a college (e.g., two-year and four-year) and those that did not?
 
 ```{r}
 schoolingsub1$near_college <- gsub("near_4yr", "Near 4-year College", schoolingsub1$near_college)
@@ -99,4 +132,6 @@ schoolingsub1 %>%
   summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
   rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>%
 DT::datatable()
+
+#TZ: this is super cool! I'll have to use this one day
 ```
