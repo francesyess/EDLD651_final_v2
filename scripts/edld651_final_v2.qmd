@@ -4,6 +4,7 @@ author: "Frances Pinkham, Eunji Kong, Elyse Calhoun, Yitong Jiang"
 format: html
 editor: visual
 embed-resources: true
+code-fold: true
 ---
 
 ```{r}

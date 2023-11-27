@@ -1,0 +1,11 @@
+---
+title: "EDLD 651 Final Presentation"
+embed-resources: true
+fig-align: "center"
+---
+
+::: column-page
+![](images/hq720.png)
+:::
+
+Elyse Calhoun, Frances Jess, Yitong Jiang, Eunji Kong
