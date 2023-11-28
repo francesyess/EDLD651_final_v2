@@ -3,57 +3,67 @@ title: "Reflection"
 ---
 
 ::: panel-tabset
-## Frances Jess
-
-1.  Challenges faced
-
-    -   blah
-
-2.  Victories
-
-    -   blah
-
-3.  Current Challenges
-
-    -   blah
-
 ## Elyse Calhoun
 
 1.  Challenges faced
 
-    -   blah
+    -   Understanding exactly what we were supposed to do for the Final Paper
+    -   Switching data sets during the Thanksgiving Break
+    -   Attempting to change variable names in a table
+    -   Trying to navigate R, github, and gitkraken in the correct order
 
 2.  Victories
 
-    -   blah
+    -   Discovering that I messed up the qmd file trying to change variable names on a table, catching the mistake before pushing it back out to the group.
+    -   Teamwork makes the dream work.
 
 3.  Current Challenges
 
-    -   blah
+    -   Gathering enough information to complete the final paper.
+
+## Frances Jess
+
+1.  Challenges faced
+
+    -   Selecting a data set that was not excessively complicated but also not too clean 
+    -   Gaining confidence in R syntax across multiple functions 
+    -   Moving between Github, GitKraken, and RStudio 
+
+2.  Victories
+
+    -   Managed to collaborate remotely! 
+    -   Problem solved as a group 
+    -   Able to diagnose problems more quickly 
+
+3.  Current Challenges
+
+    -   ???
 
 ## Yitong Jiang
 
 1.  Challenges faced
 
-    -   blah
+    -   Find a data set that we are familiar with the topic and are interested in exploring it.
 
 2.  Victories
 
-    -   blah
+    -   Great communication in the team.
+    -   Everyone is willing to share the workloads.
 
 3.  Current Challenges
 
-    -   blah
+    -   Create a figure for Research question 3: Is there a difference in wage depending on whether you lived near a college?
 
 ## Eunji Kong
 
 1.  Challenges Faced
 
-    -   Working collaboratively on GitHub
+    -   Working collaboratively on GitHub (confused with branches)
 
 2.  Victories
 
-    -   Making my own website
+    -   Working collaboratively on the analysis
+    -   Making website using Quarto
 
 3.  Current Challenges
 

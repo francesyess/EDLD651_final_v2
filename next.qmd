@@ -1,3 +1,9 @@
 ---
-title: "Next in R"
+title: "The next R hurdle"
 ---
+
+1.  Add filter(), which is required for the final project.
+
+2.  Use fct_recode() to recode our variables, and work on other codes to make them more concise, if possible.
+
+3.  Explore potential relations among variables.
