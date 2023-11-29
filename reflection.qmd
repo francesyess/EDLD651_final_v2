@@ -37,7 +37,7 @@ title: "Reflection"
 
 3.  Current Challenges
 
-    -   ???
+    -   Fluency in R language - I still have to review slides just about every time I work on an assignment to remember the proper syntax!
 
 ## Yitong Jiang
 
