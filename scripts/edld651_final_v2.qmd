@@ -13,6 +13,8 @@ library(tidyverse)
 library(here)
 library(rio)
 library(modelsummary)
+library(knitr)
+library(gt)
 ```
 
 ```{r}
@@ -44,14 +46,24 @@ schoolingsub1$parent <- gsub("daded", "dad", schoolingsub1$parent)
 schoolingsub1$parent <- gsub("momed", "mom", schoolingsub1$parent)
 ```
 
-Demographics
+### Table 1: Demographics
 
 ```{r}
-datasummary_skim(schoolingsub1 |> 
-                   pivot_wider (names_from = parent,
-                                values_from = par_education) |> 
-                   select(-rownames),
-                 histogram = FALSE)
+schoolingsub1 %>% 
+    pivot_wider (names_from = parent,
+                values_from = par_education) %>%
+   select(-near_college) %>%
+  gt() %>%
+  cols_label(ed76 = "Participant Education (Yrs)",
+             wage76 = "Participant Wage (cents/hr)",
+             iqscore = "IQ Score",
+             age76 = "Age of Participant",
+             nearc2 = "Near Community College",
+             nearc4 = "Near Four-Year College",
+             dad = "Paternal Education (Yrs)",
+             mom = "Maternal Education (Yrs)",
+             rownames = "Participant ID")
+  
 ```
 
 Research question 1: What is the relationship between parent education and participant's education?
@@ -74,6 +86,7 @@ schoolingsub1 |>
 Research question 2: What is the relationship between parent education and participant's wage?
 
 ### Plot 2
+
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(par_education, wage76, color = parent)) +
@@ -88,7 +101,8 @@ schoolingsub1 |>
 
 Research question 3: Is there a difference in wage depending on whether you lived near a college?
 
-### Table 1
+### Table 2: Proximity and Wages
+
 ```{r}
 schoolingsub1$near_college <- gsub("near_4yr", "Near 4-year College", schoolingsub1$near_college)
 
