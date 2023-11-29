@@ -25,15 +25,15 @@ title: "Reflection"
 
 1.  Challenges faced
 
-    -   Selecting a data set that was not excessively complicated but also not too clean 
-    -   Gaining confidence in R syntax across multiple functions 
-    -   Moving between Github, GitKraken, and RStudio 
+    -   Selecting a data set that was not excessively complicated but also not too clean
+    -   Gaining confidence in R syntax across multiple functions
+    -   Moving between Github, GitKraken, and RStudio
 
 2.  Victories
 
-    -   Managed to collaborate remotely! 
-    -   Problem solved as a group 
-    -   Able to diagnose problems more quickly 
+    -   Managed to collaborate remotely!
+    -   Problem solved as a group
+    -   Able to diagnose problems more quickly
 
 3.  Current Challenges
 
@@ -63,10 +63,9 @@ title: "Reflection"
 2.  Victories
 
     -   Working collaboratively on the analysis
-    -   Making website using Quarto
+    -   Making website using Quarto ([GitHub](https://github.com/francesyess/EDLD651_final_v2/tree/main))
 
 3.  Current Challenges
 
     -   Designing the website
-
 :::
