@@ -21,8 +21,11 @@ schooling <- import(here("data","Schooling.csv"))
 
 ```{r}
 schoolingsub <- schooling %>%
-  select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4)
+  select(ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4)
 
+colnames(schoolingsub) <- c('Education Level', 'Education of Parent (Dad)')
+
+#and so on... I recommend adding something like this to tidy up the data more. While it's fairly clear what it means in this table, it would look prettier if the names were tidied more.
 ```
 
 ```{r}
@@ -52,6 +55,8 @@ datasummary_skim(schoolingsub1 |>
                                 values_from = par_education) |> 
                    select(-rownames),
                  histogram = FALSE)
+
+#It looks like you're aware of this error; just something to consider as you're working on it...
 ```
 
 Research question 1: What is the relationship between parent education and participant's education?
@@ -74,6 +79,7 @@ schoolingsub1 |>
 Research question 2: What is the relationship between parent education and participant's wage?
 
 ### Plot 2
+
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(par_education, wage76, color = parent)) +
@@ -89,6 +95,7 @@ schoolingsub1 |>
 Research question 3: Is there a difference in wage depending on whether you lived near a college?
 
 ### Table 1
+
 ```{r}
 schoolingsub1$near_college <- gsub("near_4yr", "Near 4-year College", schoolingsub1$near_college)
 
@@ -103,4 +110,6 @@ schoolingsub1 %>%
   summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
   rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>%
 DT::datatable()
+
+#Really like this whole section. Very nice looking table. One thing to consider: round the average wage per hour, as it's not particularly helpful to have a lot of floating decimals out there, and it clutters up the tqble.
 ```
