@@ -23,6 +23,7 @@ schooling <- import(here("data","Schooling.csv"))
 schoolingsub <- schooling %>%
   select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4)
 
+#Note from Ben: One thing to consider is renaming the variable names to more closely reflect what they're measuring. It may help collaborators and reviewers like me understand what's being done in the code a little more.
 ```
 
 ```{r}
@@ -74,6 +75,7 @@ schoolingsub1 |>
 Research question 2: What is the relationship between parent education and participant's wage?
 
 ### Plot 2
+
 ```{r}
 schoolingsub1 |> 
   ggplot(aes(par_education, wage76, color = parent)) +
@@ -89,6 +91,7 @@ schoolingsub1 |>
 Research question 3: Is there a difference in wage depending on whether you lived near a college?
 
 ### Table 1
+
 ```{r}
 schoolingsub1$near_college <- gsub("near_4yr", "Near 4-year College", schoolingsub1$near_college)
 
@@ -103,4 +106,16 @@ schoolingsub1 %>%
   summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
   rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>%
 DT::datatable()
+```
+
+```{r}
+schooling_table <- schoolingsub1 %>%   
+  group_by(near_college) |> 
+  summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
+  rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage)
+```
+
+```{r}
+#| output: asis
+DT::datatable(schooling_table)
 ```
