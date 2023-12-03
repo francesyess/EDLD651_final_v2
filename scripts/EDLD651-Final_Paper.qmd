@@ -67,7 +67,6 @@ schoolingsub1 <- schoolingsub1 %>%
                              "Maternal Education (Yrs)" = "momed"))
 ```
 
-
 ```{r}
 #| label: Table1-Demographics
 #| include: true
@@ -89,6 +88,7 @@ schoolingsub1 <- schoolingsub1 %>%
 #              rownames = "Participant ID")
 
 schoolingsub1 |> 
+  filter(!is.na(iqscore)) |>
   pivot_wider (names_from = parent,
                 values_from = par_education) |> 
   select(-rownames) |> 
@@ -130,21 +130,25 @@ max_wage <-max(schoolingsub$wage76)
 ```
 
 # Method
+
 The current study is a secondary data analysis from the National Longitudinal Survey of Young Men (NLSYM), which started in 1966 with 5525 young men between the ages of 14 and 24 in the United States. The current study looks at a subset of this data collected in 1976.
 
 ### Participants
-`r sample_size` young men were included in this study. Table 1 provides demographic data of our sample. The average age of our participants in 1976 were `r round(avg_age,round)` (*SD* = `r round(age_sd,round)`) with an average of `r round(avg_edu, round)` years of education (*SD* = `r round(edu_sd, round)`). The average education of the parents of the participants were `r round(avg_paredu, round)` years of education (*SD* = `r round(paredu_sd, round)`). Interestingly, during a time when education disparity between gender was large, paternal (*M* = `r round(dedu_sd, round)`, *SD* = `r round(dedu_sd, round)`) and maternal education (*M* = `r round(medu_sd, round)`, *SD* = `r round(medu_sd, round)`) was similar in our sample. 
 
-As is true for many longitudinal studies in the mid-1960s [@Card1995], our data is not a random, representative sample of the United States population. Data was collected from neighborhoods with a high concentration of non-White residents. In the 1960s, black represented 10% of the US population [@Census1961]; however, in our study, `r round(black, round)`% of our sample were black. 
+`r sample_size` young men were included in this study. Table 1 provides demographic data of our sample. The average age of our participants in 1976 were `r round(avg_age,round)` (*SD* = `r round(age_sd,round)`) with an average of `r round(avg_edu, round)` years of education (*SD* = `r round(edu_sd, round)`). The average education of the parents of the participants were `r round(avg_paredu, round)` years of education (*SD* = `r round(paredu_sd, round)`). Interestingly, during a time when education disparity between gender was large, paternal (*M* = `r round(dedu_sd, round)`, *SD* = `r round(dedu_sd, round)`) and maternal education (*M* = `r round(medu_sd, round)`, *SD* = `r round(medu_sd, round)`) was similar in our sample.
+
+As is true for many longitudinal studies in the mid-1960s [@Card1995], our data is not a random, representative sample of the United States population. Data was collected from neighborhoods with a high concentration of non-White residents. In the 1960s, black represented 10% of the US population [@Census1961]; however, in our study, `r round(black, round)`% of our sample were black.
 
 ### Measures
-In this study, we examined participants' responses to question regarding their age, ethnicity, IQ score, parent's education (both maternal and paternal), current level of participant education, participant's current wage, and proximity to college. The age variable is a continuous variable measured in number of years (*range* = `r min_age`- `r max_age`), and the ethnicity is a binary categorical variable in which participants were asked whether they identify as black. The IQ score variable is a continuous variable (*range* = `r min_iq`- `r max_iq`). Participant and parental education were asked in number of years (continuous variable). Participant current wage was asked as cents earned per hour (*range* = `r min_wage`- `r max_wage`). Lastly, participants were asked whether they live near a 4-year college, community college, both, or neither. 
+
+In this study, we examined participants' responses to question regarding their age, ethnicity, IQ score, parent's education (both maternal and paternal), current level of participant education, participant's current wage, and proximity to college. The age variable is a continuous variable measured in number of years (*range* = `r min_age`- `r max_age`), and the ethnicity is a binary categorical variable in which participants were asked whether they identify as black. The IQ score variable is a continuous variable (*range* = `r min_iq`- `r max_iq`). Participant and parental education were asked in number of years (continuous variable). Participant current wage was asked as cents earned per hour (*range* = `r min_wage`- `r max_wage`). Lastly, participants were asked whether they live near a 4-year college, community college, both, or neither.
 
 ### Statistical Analyses
-There were no missing data in our variables, except for in the IQ scores. However, since IQ scores were included to provide demographic information, there were no need to impute data for missing data. To answer our first research question (e.g., `r rq1`) descriptively, we plotted the relationship between parent and participant's education and displayed the fitted linear line. To answer our second research question (e.g., `r rq2`) descriptively, we plotted the relationship between parent's education and participant's education and displayed the fitted linear line. Lastly, to answer our third research question (e.g., `r rq3`) descriptively, we calculated participant's wage based on their response to living proximity to college and plotted the information as a bar graph. 
 
+There were no missing data in our variables, except for in the IQ scores. However, since IQ scores were included to provide demographic information, there were no need to impute data for missing data. To answer our first research question (e.g., `r rq1`) descriptively, we plotted the relationship between parent and participant's education and displayed the fitted linear line. To answer our second research question (e.g., `r rq2`) descriptively, we plotted the relationship between parent's education and participant's education and displayed the fitted linear line. Lastly, to answer our third research question (e.g., `r rq3`) descriptively, we calculated participant's wage based on their response to living proximity to college and plotted the information as a bar graph.
 
 # Results
+
 ```{r}
 #| label: Plot1
 #| include: true
