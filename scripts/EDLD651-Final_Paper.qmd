@@ -1,0 +1,207 @@
+---
+title: "EDLD651 Final Paper"
+author: "Frances Pinkham, Eunji Kong, Elyse Calhoun, Yitong Jiang"
+format: html
+embed-resources: true
+execute: 
+  include: false
+# I erased code-fold since and included the "include:false" because this final version should be a paper
+---
+
+# Note to everyone. I added our research question as an object so that we can use them in inline codes.
+
+```{r}
+
+library(tidyverse)
+library(here)
+library(rio)
+library(modelsummary)
+library(knitr)
+library(gt)
+```
+
+```{r}
+#| label: input-data
+
+schooling <- import(here("data","Schooling.csv"))
+rq1 <- "What is the relationship between parent education and participant's education?"
+rq2 <- "What is the relationship between parent education and participant's wage?"
+rq3 <- "Is there a difference in wage depending on whether you lived near a college?"
+round <- 2
+```
+
+# Introduction
+
+## (Elyse - please include a bibliography. Can you also include the reference that Frances used in her results section? as well as mine? I put mine below)
+
+U.S. Census Bureau. (1961). 1960 Census of the Population: Supplementary Reports: Race of the Population of the United States, by States: 1960. Retrieved December 3, 2023, from https://www2.census.gov/library/publications/decennial/1960/pc-s1-supplementary-reports/pc-s1-10.pdf
+
+Card, D. (1995) Using geographical variation in college proximity to estimate the return to schooling in Christofides, L.N., E.K. Grant and R. Swidinsky (1995) Aspects of labour market behaviour : essays in honour of John Vanderkamp, University of Toronto Press, Toronto.
+
+```{r}
+#| label: select-variables
+
+schoolingsub <- schooling %>%
+  select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4, black)
+
+
+```
+
+```{r}
+#| label: tidy-data
+
+schoolingsub1 <- schoolingsub |> 
+  mutate(near_college = 
+           case_when(nearc2 == "yes" & nearc4 =="yes" ~ "Near 4-year and Community College",
+                     nearc2 == "yes" & nearc4 =="no" ~ "Near Community College",
+                     nearc2 == "no" & nearc4 =="yes"~ "Near 4-year College",
+                     .default = "Not Near College"))
+
+schoolingsub1 <- schoolingsub1 %>%
+  pivot_longer(
+    cols = c(daded,momed),
+    names_to = "parent",
+    values_to = "par_education") |> 
+  mutate(parent = fct_recode(parent, 
+                             "Paternal Education (Yrs)" = "daded",
+                             "Maternal Education (Yrs)" = "momed"))
+```
+
+
+```{r}
+#| label: Table1-Demographics
+#| include: true
+#| echo: false
+# The table below lists all the data for each participants. for a demographics table, it needs to be a summary table of each participants' information 
+# schoolingsub1 %>% 
+#     pivot_wider (names_from = parent,
+#                 values_from = par_education) %>%
+#    select(-near_college) %>%
+#   gt_preview(schoolingsub1, top_n = 20, bottom_n = 1) %>%
+#   cols_label(ed76 = "Participant Education (Yrs)",
+#              wage76 = "Participant Wage (cents/hr)",
+#              iqscore = "IQ Score",
+#              age76 = "Age of Participant",
+#              nearc2 = "Near Community College",
+#              nearc4 = "Near Four-Year College",
+#              dad = "Paternal Education (Yrs)",
+#              mom = "Maternal Education (Yrs)",
+#              rownames = "Participant ID")
+
+schoolingsub1 |> 
+  pivot_wider (names_from = parent,
+                values_from = par_education) |> 
+  select(-rownames) |> 
+  rename(
+    "Participant Education (Yrs)" = ed76,
+    "Participant Wage (cents/hr)" = wage76,
+    "IQ Score" = iqscore,
+    "Age of Participant" = age76,
+    "Near Community College" = nearc2,
+    "Near Four-Year College" = nearc4) |> 
+  datasummary_skim(histogram = FALSE, title = "Table 1: Demograpnics")
+  
+sample_size <- nrow(schoolingsub)
+black <- sum(schoolingsub$black == "yes")/nrow(schoolingsub)*100
+
+avg_age <-mean(schoolingsub$age76)
+age_sd <- sd(schoolingsub$age76)
+min_age <-min(schoolingsub$age76)
+max_age <-max(schoolingsub$age76)
+
+
+avg_edu <-mean(schoolingsub$ed76)
+edu_sd <-sd(schoolingsub$ed76)
+
+avg_paredu <-mean(schoolingsub1$par_education)
+paredu_sd <-sd(schoolingsub1$par_education)
+
+avg_medu <-mean(schoolingsub$momed)
+medu_sd <-sd(schoolingsub$momed)
+
+avg_dedu <-mean(schoolingsub$daded)
+dedu_sd <-sd(schoolingsub$daded)
+
+min_iq <-min(schoolingsub$iqscore)
+max_iq <-max(schoolingsub$iqscore)
+
+min_wage <-min(schoolingsub$wage76)
+max_wage <-max(schoolingsub$wage76)
+```
+
+# Method
+The current study is a secondary data analysis from the National Longitudinal Survey of Young Men (NLSYM), which started in 1966 with 5525 young men between the ages of 14 and 24 in the United States. The current study looks at a subset of this data collected in 1976.
+
+### Participants
+`r sample_size` young men were included in this study. Table 1 provides demographic data of our sample. The average age of our participants in 1976 were `r round(avg_age,round)` (*SD* = `r round(age_sd,round)`) with an average of `r round(avg_edu, round)` years of education (*SD* = `r round(edu_sd, round)`). The average education of the parents of the participants were `r round(avg_paredu, round)` years of education (*SD* = `r round(paredu_sd, round)`). Interestingly, during a time when education disparity between gender was large, paternal (*M* = `r round(dedu_sd, round)`, *SD* = `r round(dedu_sd, round)`) and maternal education (*M* = `r round(medu_sd, round)`, *SD* = `r round(medu_sd, round)`) was similar in our sample. 
+
+As is true for many longitudinal studies in the mid-1960s [@Card1995], our data is not a random, representative sample of the United States population. Data was collected from neighborhoods with a high concentration of non-White residents. In the 1960s, black represented 10% of the US population [@Census1961]; however, in our study, `r round(black, round)`% of our sample were black. 
+
+### Measures
+In this study, we examined participants' responses to question regarding their age, ethnicity, IQ score, parent's education (both maternal and paternal), current level of participant education, participant's current wage, and proximity to college. The age variable is a continuous variable measured in number of years (*range* = `r min_age`- `r max_age`), and the ethnicity is a binary categorical variable in which participants were asked whether they identify as black. The IQ score variable is a continuous variable (*range* = `r min_iq`- `r max_iq`). Participant and parental education were asked in number of years (continuous variable). Participant current wage was asked as cents earned per hour (*range* = `r min_wage`- `r max_wage`). Lastly, participants were asked whether they live near a 4-year college, community college, both, or neither. 
+
+### Statistical Analyses
+There were no missing data in our variables, except for in the IQ scores. However, since IQ scores were included to provide demographic information, there were no need to impute data for missing data. To answer our first research question (e.g., `r rq1`) descriptively, we plotted the relationship between parent and participant's education and displayed the fitted linear line. To answer our second research question (e.g., `r rq2`) descriptively, we plotted the relationship between parent's education and participant's education and displayed the fitted linear line. Lastly, to answer our third research question (e.g., `r rq3`) descriptively, we calculated participant's wage based on their response to living proximity to college and plotted the information as a bar graph. 
+
+
+# Results
+```{r}
+#| label: Plot1
+#| include: true
+#| echo: false
+#| message: false
+
+schoolingsub1 |> 
+  ggplot(aes(par_education, ed76, color = parent)) +
+  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+  labs(title = "Figure 1: Relationship between Parent and Participant Education",
+       subtitle = "From 1976 Survey",
+       x = "Parental Education (yrs)",
+       y = "Participant Education (yrs)",
+       color = "Parent")
+
+```
+
+```{r}
+#| label: Plot2
+#| include: true
+#| echo: false
+#| message: false
+
+schoolingsub1 |> 
+  ggplot(aes(par_education, wage76, color = parent)) +
+  geom_smooth(method = lm, se = FALSE) + theme_minimal() +
+   labs(title = "Figure 2: Relationship between Parent Education and Participant Wages",
+       subtitle = "From 1976 Survey",
+       x = "Parental Education (yrs)",
+       y = "Participant Wages (cents/hr)",
+       color = "Parent"
+       )
+```
+
+```{r}
+#| label: Table2
+#| include: true
+#| echo: false
+
+prox_wage <- schoolingsub1 %>%
+group_by(near_college) %>%
+summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) %>%
+rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>% DT::datatable()
+
+```
+
+**Plot 1** reflects a linear regression model of participant education as a function of parental education. Although we have not performed a complete analysis on these descriptive statistics, our model may indicate a positive correlation between parental education and participant education.
+
+**Plot 2** also indicates a possible positive correlation between parental education and participant wages, shown in cents/hour. Further statistical testing would be required to verify this.
+
+```{r}
+min_wage <- 2.30
+near_fouryear <- 6.45
+```
+
+**Table 2** displays the participant's proximity to a college alongside their average wage per hour. Those participants who lived near both a four-year and a community college had the highest average wage per hour, at \$6.45. According to the [Department of Labor](https://www.dol.gov/agencies/whd/minimum-wage/history), the minimum wage in the USA in 1976 was \$2.30 per hour, which means that these participants' wages were `r near_fouryear/min_wage` times higher than the minimum wage.
+
+Those who resided near only a 4-year college had slightly lower average wages, at approximately \$5.68/hr.
+
+Those who were not near any college had marginally higher average wages (\$5.18/hour) than those near a community college, at \$5.13 per hour.
