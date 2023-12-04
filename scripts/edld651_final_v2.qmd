@@ -125,7 +125,7 @@ DT::datatable()
 **Table 1** outlines our basic demographics for our study. For our participant demographics, we examined the education in years, IQ score, age, and proximity to higher education institutions. We also examined the level of maternal and paternal education level in years.
 
 <<<<<<< Updated upstream
-**Plot 1** reflects a linear regression model of participant education as a function of parental education. Although we have not performed a complete analysis on these descriptive statistics, our model may indicate a positive correlation between parental education and participant education.
+**Plot 1** reflects a linear regression model of participant education as a function of parental education. Although we have not performed a complete analysis on these descriptive statistics, our model may indicate a positive correlation between parental education and participant education. Both maternal and paternal education levels may be positively correlated with participant education levels.
 
 **Plot 2** also indicates a possible positive correlation between parental education and participant wages, shown in cents/hour. Further statistical testing would be required to verify this.
 
