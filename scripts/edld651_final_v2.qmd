@@ -101,7 +101,11 @@ schoolingsub1 |>
 
 Research question 3: Is there a difference in wage depending on whether you lived near a college?
 
+<<<<<<< Updated upstream
 ### Table 2: Proximity and Wages
+=======
+### Table 1
+>>>>>>> Stashed changes
 
 ```{r}
 prox_wage <- schoolingsub1 %>%
@@ -120,6 +124,7 @@ DT::datatable()
 
 **Table 1** outlines our basic demographics for our study. For our participant demographics, we examined the education in years, IQ score, age, and proximity to higher education institutions. We also examined the level of maternal and paternal education level in years.
 
+<<<<<<< Updated upstream
 **Plot 1** reflects a linear regression model of participant education as a function of parental education. Although we have not performed a complete analysis on these descriptive statistics, our model may indicate a positive correlation between parental education and participant education.
 
 **Plot 2** also indicates a possible positive correlation between parental education and participant wages, shown in cents/hour. Further statistical testing would be required to verify this.
@@ -135,3 +140,11 @@ near_fouryear <- 6.45
 Those who resided near only a 4-year college had slightly lower average wages, at approximately \$5.68/hr.
 
 Those who were not near any college had marginally higher average wages (\$5.18/hour) than those near a community college, at \$5.13 per hour.
+=======
+schoolingsub1 %>%   
+  group_by(near_college) |> 
+  summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) |>
+  rename("Proximity to College" = near_college, "Participant Average Wage per Hour" = avg_wage) %>%
+DT::datatable()
+```
+>>>>>>> Stashed changes
