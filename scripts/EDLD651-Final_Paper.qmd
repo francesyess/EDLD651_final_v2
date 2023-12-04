@@ -5,6 +5,8 @@ format: html
 embed-resources: true
 execute: 
   include: false
+bibliography: References.bib
+link-citations: true
 # I erased code-fold since and included the "include:false" because this final version should be a paper
 ---
 
@@ -32,11 +34,9 @@ round <- 2
 
 # Introduction
 
-## (Elyse - please include a bibliography. Can you also include the reference that Frances used in her results section? as well as mine? I put mine below)
+When discussing minimum wages and its economic impact, most research focuses on the impact of employment [@neumark2003]. Card [-@Card1995] suggests that growing up in an area near or around a college potentially has a direct effect on wage earnings. The assumption is made that people earn higher wages based on the amount of schooling they have completed [@dearden]. For this study, we want to determine if college proximity and the education level of parents have an impact on wage earnings.
 
-U.S. Census Bureau. (1961). 1960 Census of the Population: Supplementary Reports: Race of the Population of the United States, by States: 1960. Retrieved December 3, 2023, from https://www2.census.gov/library/publications/decennial/1960/pc-s1-supplementary-reports/pc-s1-10.pdf
-
-Card, D. (1995) Using geographical variation in college proximity to estimate the return to schooling in Christofides, L.N., E.K. Grant and R. Swidinsky (1995) Aspects of labour market behaviour : essays in honour of John Vanderkamp, University of Toronto Press, Toronto.
+This data set comes from the National Longitudinal Survey of Young Men (NLSYM), observing individuals using cross-sectional data between 1976 and 1966. The Fair Labor Standards Act (FLSA) reported in 1966 that the minimum wage was \$1.60, but varied across states. In 1976, FSLA shared that in the previous two years, starting in 1974, the minimum wage increased from \$2.00 to \$2.30. This study used descriptive statistics to determine if considerations such as the education level of parents, mother and/or father could impact those earning hourly wages. For college proximity, the variables included "near a 4 year college," "near community college," "not near a college."
 
 ```{r}
 #| label: select-variables
