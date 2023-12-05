@@ -10,6 +10,8 @@ bibliography: References.bib
 link-citations: true
 # I erased code-fold since and included the "include:false" because this final version should be a paper
 ---
+# Abstract
+Environmental factors during childhood, such as parents' educational level and proximity to a college or university, have been found to impact one's income. Our current study aims to contribute to existing literature by examining this relationship. Results indicate that parental education is a significant predictor of participants' education and wages. Additionally, living close to both a four-year university and a community college was correlated with the highest participant income. Examining these factors that impact income is important to understand how to promote equitable opportunity for everyone. 
 
 ```{r}
 #| include: false
@@ -36,9 +38,9 @@ round <- 2
 
 # Introduction
 
-Education length and income level are two main aspects reflecting the social and economic advancement in adulthood. Education is a critical element in the development of individuals and societies, providing a foundation for lifelong learning, personal growth, and social mobility. Among multiple factors that could influence a individual's educational achievements, parental education has received much attention. Researchers argue that parent's education should influence parents' skills, values and knowledge of the educational system; which, in turn, should influence their educational practices at home and the skills children have to model, as well as the parents' ability to intervene in the educational system on their childrens behalf [@eccles2005influences]. Parents with more education also have higher expectations for their childrens' education, which, in turn, predict great educational attainment for their children, even until adulthood [@alexander1994expectations]. Research showed that young adults whose parents have attained no more than a high school diploma are least likely to aspire to a bachelor's degree and least like to be college qualified [@berkner1997access; @horn2000mapping] .
+Income level reflects the social and economic advancement in adulthood, and educational attainment has been found to have a direct impact on one's occupation, income, and wealth.Education is a critical element in the development of individuals and societies, providing a foundation for lifelong learning, personal growth, and social mobility. Among multiple factors that could influence an individual's educational achievements, parental education has received much attention. Researchers argue that parents' education may influence parents' skills, values and knowledge of the educational system; which, in turn, may influence their educational practices at home and the skills children have as models, as well as the parents' ability to intervene in the educational system on their children's behalf [@eccles2005influences]. Parents with more education also have higher expectations for their children's education, which, in turn, predicts great educational attainment for their children, even until adulthood [@alexander1994expectations]. Research has shown that young adults whose parents have attained no more than a high school diploma are less likely to aspire to a bachelor's degree and less likely to be college qualified [@berkner1997access; @horn2000mapping]. 
 
-In addition, many of the social sciences are interested in the predictors and correlates of adult financial well-being and earnings. There are established findings on the links between family background and later educational and occupational outcomes [@deary2005intergenerational; @schoon2010childhood]. Yet, when discussing minimum wages and its economic impact, most research focuses on the impact of employment [@neumark2003]. Card [-@Card1995] suggests that growing up in an area near or around a college potentially has a direct effect on wage earnings. The assumption is made that people earn higher wages based on the amount of schooling they have completed [@dearden]. Limited research showed that community of residence (e.g., residence in rural or urban, residence near a private or public college) significantly influenced the developments of both males and females, including their educational achievements, employment and incomes [@sewell2003we]. However, more studies are in need to explore the effects of family background, later educational and occupational outcomes on adult earning ability [@furnham2013factors].
+Examining predictors and correlates of adult financial well-being and earnings as they relate to one's upbringing, there are established findings on the links between family background and later occupational outcomes [@deary2005intergenerational; @schoon2010childhood]. Given that family economic status is related to the neighborhood that one may live in growing up, one factor that may impact future education attainment may be whether you grew up near a college or university. Card [-@Card1995] suggests that growing up in an area near or around a college potentially has a direct effect on wage earnings. The assumption is made that people earn higher wages based on the amount of schooling they have completed [@dearden]. Limited research showed that community of residence (e.g., residence in rural or urban areas, residence near a private or public college) significantly influenced the developments of both males and females' social and economic standing, including their educational achievements, employment and incomes [@sewell2003we]. However, more studies are needed to explore the effects of family background, later educational and occupational outcomes on adult earning ability [@furnham2013factors].
 
 The purpose of this study is to understand the relationship between parents' education, geographic locations (i.e., proximity to college), and participants' education and income. Specifically, given the relationships among these factors in previous literature, we sought to answer:
 
@@ -52,8 +54,6 @@ The purpose of this study is to understand the relationship between parents' edu
 
 schoolingsub <- schooling %>%
   select(rownames,ed76, daded, momed, wage76, iqscore, age76, nearc2, nearc4, black)
-
-
 ```
 
 ```{r}
@@ -61,6 +61,7 @@ schoolingsub <- schooling %>%
 #| include: false
 
 schoolingsub1 <- schoolingsub |> 
+    filter(!is.na(iqscore)) |>
   mutate(near_college = 
            case_when(nearc2 == "yes" & nearc4 =="yes" ~ "Near 4-year and Community College",
                      nearc2 == "yes" & nearc4 =="no" ~ "Near Community College",
@@ -98,7 +99,6 @@ schoolingsub1 <- schoolingsub1 %>%
 #              rownames = "Participant ID")
 
 schoolingsub1 |> 
-  filter(!is.na(iqscore)) |>
   pivot_wider (names_from = parent,
                 values_from = par_education) |> 
   select(-rownames) |> 
@@ -111,32 +111,32 @@ schoolingsub1 |>
     "Near Four-Year College" = nearc4) |> 
   datasummary_skim(histogram = FALSE, title = "Table 1: Demograpnics")
   
-sample_size <- nrow(schoolingsub)
-black <- sum(schoolingsub$black == "yes")/nrow(schoolingsub)*100
+sample_size <- nrow(schoolingsub1)
+black <- sum(schoolingsub1$black == "yes")/nrow(schoolingsub)*100
 
-avg_age <-mean(schoolingsub$age76)
-age_sd <- sd(schoolingsub$age76)
-min_age <-min(schoolingsub$age76)
-max_age <-max(schoolingsub$age76)
+avg_age <-mean(schoolingsub1$age76)
+age_sd <- sd(schoolingsub1$age76)
+min_age <-min(schoolingsub1$age76)
+max_age <-max(schoolingsub1$age76)
 
 
-avg_edu <-mean(schoolingsub$ed76)
-edu_sd <-sd(schoolingsub$ed76)
+avg_edu <-mean(schoolingsub1$ed76)
+edu_sd <-sd(schoolingsub1$ed76)
 
 avg_paredu <-mean(schoolingsub1$par_education)
 paredu_sd <-sd(schoolingsub1$par_education)
 
-avg_medu <-mean(schoolingsub$momed)
-medu_sd <-sd(schoolingsub$momed)
+avg_medu <-mean(schoolingsub1$momed)
+medu_sd <-sd(schoolingsub1$momed)
 
-avg_dedu <-mean(schoolingsub$daded)
-dedu_sd <-sd(schoolingsub$daded)
+avg_dedu <-mean(schoolingsub1$daded)
+dedu_sd <-sd(schoolingsub1$daded)
 
-min_iq <-min(schoolingsub$iqscore)
-max_iq <-max(schoolingsub$iqscore)
+min_iq <-min(schoolingsub1$iqscore)
+max_iq <-max(schoolingsub1$iqscore)
 
-min_wage <-min(schoolingsub$wage76)
-max_wage <-max(schoolingsub$wage76)
+min_wage <-min(schoolingsub1$wage76)
+max_wage <-max(schoolingsub1$wage76)
 ```
 
 # Method
@@ -155,7 +155,7 @@ In this study, we examined participants' responses to question regarding their a
 
 ### Statistical Analyses
 
-There were no missing data in our variables, except for in the IQ scores. However, since IQ scores were included to provide demographic information, there were no need to impute data for missing data. To answer our first research question (e.g., `r rq1`), we created General Linear Model and plotted the relationship between parent and participant's education and displayed the fitted linear line. To answer our second research question (e.g., `r rq2`), we created General Linear Model and plotted the relationship between parent's education and participant's education and displayed the fitted linear line. Lastly, to answer our third research question (e.g., `r rq3`), we created the ANOVA model and calculated participant's wage based on their response to living proximity to college and plotted the information as a violin graph.
+There were no missing data in our variables, except for in the IQ scores. We compared the means and standard deviation of the data including and excluding participants with missing data and found minimal difference. Therefore, for the purpose of this study (to use the `filter()` function), missing data was exluded from our analysis. To answer our first research question (e.g., `r rq1`), we created General Linear Model and plotted the relationship between parent and participant's education and displayed the fitted linear line. To answer our second research question (e.g., `r rq2`), we created General Linear Model and plotted the relationship between parent's education and participant's education and displayed the fitted linear line. Lastly, to answer our third research question (e.g., `r rq3`), we created the ANOVA model and calculated participant's wage based on their response to living proximity to college and plotted the information as a violin graph.
 
 # Results
 
@@ -193,7 +193,7 @@ schoolingsub1 |>
 
 ```
 
-**Figure 1** reflects a linear regression model of participant education as a function of parental education. When the parental education is lower than around 13 years, participants whose father have longer educational years spend longer time in their own education. However, when the parental education is higher than around 13 years and with longer maternal education, they themselves have been in education longer. Based on the results in **Table 1**, on average, in the population, one unit change in parent's education is related to 0.482 more years in participant's education, indicating a positive correlation between parental education and participant education.
+**Figure 1** reflects a linear regression model of participant education as a function of parental education. Regardless of parental education, paternal and maternal education, both, was associated with higher educational attainment for the participants. Based on the results in **Table 1**, on average, in the population, one unit change in parent's education is related to 0.451 more years in participant's education, indicating a positive correlation between parental education and participant education.
 
 ```{r}
 #| label: Model2
@@ -229,21 +229,23 @@ schoolingsub1 |>
 
 ```
 
-**Figure 2** also indicates a positive correlation between parental education and participant wages, shown in cents/hour. When parental education is shorter than around 11.5 years, with longer education of fathers, participants have higher wages. However, when parental education is longer than around 11.5 years, with a longer maternal education, participants achieve a higher level in wages. **Table 2** shows us that, on average in the population, one unit change in parental education is positively related to 0.002 more cents per hour in participant's wages.
+**Figure 2** also indicates a positive correlation between parental education and participant wages, shown in cents/hour. When parental education is shorter than around 12.5 years, with longer education of fathers, participants have higher wages. However, when parental education is longer than around 12.5 years, with a longer maternal education, participants achieve a higher level in wages. **Table 2** shows us that, on average in the population, one unit change in parental education is positively related to 0.001 more cents per hour in participant's wages. Although it is statistically significant, considering small coefficient, it may not be an artifact of the large sample size. 
 
 ```{r}
 #| label: Table3
-#| include: false
+#| include: true
+#| echo: false
+#| output: asis
 
 min_wage <- 2.30
 near_fouryear <- 6.45
 
-prox_wage <- schoolingsub1 %>%
+schoolingsub1 %>%
 group_by(near_college) %>%
 summarize(avg_wage = mean(wage76, na.rm = TRUE)/100) %>%
 rename("Proximity to College" = near_college, 
        "Participant Average Wage per Hour" = avg_wage)%>%
-  DT::datatable()
+  kable(caption = "Table 3. Average participant wage based on proximity to college")
 ```
 
 **Table 3** displays the participant's proximity to a college alongside their average wage per hour. Those participants who lived near both a four-year and a community college had the highest average wage per hour, at \$`r near_fouryear`. According to the [@Deptoflabor], the minimum wage in the USA in 1976 was \$`r min_wage` per hour, which means that these participants' wages were NNN? times higher than the minimum wage. Those who resided near only a 4-year college had slightly lower average wages, at approximately \$5.68/hr. Those who were not near any college had marginally higher average wages (\$5.18/hour) than those near a community college, at \$5.13 per hour.
@@ -293,7 +295,7 @@ sd_wage_max <-
 
 ```
 
-Using ANOVA analysis, we found that there is a statistically significant (p \<0.001) relationship between the proximity to college and participant wages. In **Figure 3**, we highlight that there is a meaningful variation in average participant wages both within and between participant's proximity to a college. Specifically, participants who live near four year and community colleges make higher wages (Mean = `r mean_wage_pe`), on average, than other groups. There is substantial variability within each group of proximity to college, with standard deviations in variable participant's wage (*wage76*) between `r sd_wage_min` and `r sd_wage_max`.
+Using ANOVA analysis, we found that there is a statistically significant (p \<0.001) relationship between the proximity to college and participant wages. In **Figure 3**, we highlight that there is a meaningful variation in average participant wages both within and between participant's proximity to a college. Specifically, participants who live near four year and community colleges make higher wages (Mean = `r round(mean_wage_pe,2)`), on average, than other groups. There is substantial variability within each group of proximity to college, with standard deviations in variable participant's wage (*wage76*) between `r round(sd_wage_min,2)` and `r round(sd_wage_max,2)`.
 
 # Discussion
 
